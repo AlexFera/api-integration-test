@@ -5,6 +5,7 @@ using App.CLI.Services;
 using FluentValidation;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Polly;
 using Refit;
 
 var configuration = BuildConfiguration();
@@ -34,6 +35,12 @@ static void ConfigureServices(IConfigurationRoot configuration, IServiceCollecti
     services.AddSingleton<IWeatherInformationService,  WeatherInformationService>();
     services.AddValidatorsFromAssemblyContaining<Program>();
     services.AddRefitClient<IWeatherInformationApi>()
+        .AddTransientHttpErrorPolicy(builder => builder.WaitAndRetryAsync(new[]
+        {
+            TimeSpan.FromSeconds(1),
+            TimeSpan.FromSeconds(5),
+            TimeSpan.FromSeconds(10)
+        }))
         .ConfigureHttpClient(httpClient =>
         {
             httpClient.BaseAddress = new Uri(configuration["WeatherApi:BaseAddress"]);
