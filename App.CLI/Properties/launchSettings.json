@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "App.CLI": {
+      "commandName": "Project",
+      "commandLineArgs": "--cityName Madrid"
+    }
+  }
+}

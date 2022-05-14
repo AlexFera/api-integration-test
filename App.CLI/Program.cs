@@ -1,6 +1,8 @@
 ﻿using App.CLI;
 using App.CLI.Api;
 using App.CLI.Output;
+using App.CLI.Services;
+using FluentValidation;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Refit;
@@ -29,7 +31,9 @@ static void ConfigureServices(IConfigurationRoot configuration, IServiceCollecti
 {
     services.AddSingleton<WeatherInformationApplication>();
     services.AddSingleton<IConsoleWriter, ConsoleWriter>();
-    services.AddRefitClient<IWeatherApi>()
+    services.AddSingleton<IWeatherInformationService,  WeatherInformationService>();
+    services.AddValidatorsFromAssemblyContaining<Program>();
+    services.AddRefitClient<IWeatherInformationApi>()
         .ConfigureHttpClient(httpClient =>
         {
             httpClient.BaseAddress = new Uri(configuration["WeatherApi:BaseAddress"]);
