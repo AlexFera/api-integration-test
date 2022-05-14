@@ -2,7 +2,7 @@
 
 namespace App.CLI.Api.Responses;
 
-public class WeatherInformationResponse
+public record WeatherInformationResponse
 {
     [JsonPropertyName("weather_state_name")]
     public string WeatherStateName { get; init; } = default!;

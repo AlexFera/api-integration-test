@@ -1,6 +1,6 @@
 ﻿namespace App.CLI.Models;
 
-public class GetWeatherInformationResult
+public record WeatherInformationResult
 {
     public string WeatherStateName { get; init; } = default!;
 

@@ -34,6 +34,7 @@ public class WeatherInformationService : IWeatherInformationService
 
         var searchLocationResponses = await _weatherInformationApi.SearchLocationAsync(request.CityName);
         Guard.Against.Null(searchLocationResponses);
+
         if (searchLocationResponses.Count == 0)
         {
             return new GetWeatherInformationError(new List<string> { "City does not exist" });
@@ -44,12 +45,12 @@ public class WeatherInformationService : IWeatherInformationService
         }
         if (searchLocationResponses[0].LocationType != LocationTypeResponse.City)
         {
-            return new GetWeatherInformationError(new List<string> { "Please make sure to provide the name of a city and not of a country, province or continent." });
+            return new GetWeatherInformationError(new List<string> { "Please make sure to provide the name of a city and not of a country, province or continent" });
         }
 
         var getWeatherInformationResponse = await _weatherInformationApi.GetWeatherInformationAsync(searchLocationResponses[0].WhereOnEarthID);
         Guard.Against.Null(getWeatherInformationResponse);
 
-        return getWeatherInformationResponse.WeatherInformation[0].ToWeatherInformationResult();
+        return getWeatherInformationResponse.ToGetWeatherInformationResult();
     }
 }
