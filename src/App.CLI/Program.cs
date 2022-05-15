@@ -17,6 +17,7 @@ static IConfigurationRoot BuildConfiguration()
 {
     return new ConfigurationBuilder()
             .AddJsonFile("appSettings.json")
+            .AddEnvironmentVariables("CLI_")
             .Build();
 }
 
@@ -43,6 +44,6 @@ static void ConfigureServices(IConfigurationRoot configuration, IServiceCollecti
         }))
         .ConfigureHttpClient(httpClient =>
         {
-            httpClient.BaseAddress = new Uri(configuration["WeatherApi:BaseAddress"]);
+            httpClient.BaseAddress = new Uri(configuration["WeatherInformationApi:BaseAddress"]);
         });
 }

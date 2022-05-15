@@ -33,6 +33,7 @@ public class WeatherInformationService : IWeatherInformationService
         }
 
         var searchLocationResponses = await _weatherInformationApi.SearchLocationAsync(request.CityName);
+
         Guard.Against.Null(searchLocationResponses);
 
         if (searchLocationResponses.Count == 0)
